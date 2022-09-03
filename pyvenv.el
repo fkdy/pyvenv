@@ -539,8 +539,11 @@ This is the value of $WORKON_HOME or ~/.virtualenvs."
 (defun pyvenv-virtualenvwrapper-supported ()
   "Return true iff virtualenvwrapper is supported.
 
-Right now, this just checks if WORKON_HOME is set."
-  (getenv "WORKON_HOME"))
+Check if we can call virtualenvwrapper.hook_loader module."
+  (= 0 (call-process
+        pyvenv-virtualenvwrapper-python
+        nil nil nil
+        "-m" "virtualenvwrapper.hook_loader" "--help")))
 
 (defun pyvenv--virtual-env-bin-dirs (virtual-env)
   (let ((virtual-env
